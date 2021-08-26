@@ -8,16 +8,17 @@ namespace util {
          //Standard codes
         const char*  PREFIX        = "\x1b[";
         const char*  RESET         = "0m";
+        const char*  SUFFIX        = "m";
 
 
          //colour codes
-        const char* const  RED     = "1;31m";
-        const char* const  GREEN   = "1;92m";
-        const char* const  YELLOW  = "1;93m";
-        const char* const  BLUE    = "1;34m";
-        const char* const  MAGENTA = "1;95m";
-        const char* const  CYAN    = "1;96m";
-        const char* const  WHITE   = "1;37m";
+        const char* const  RED     = "31;";
+        const char* const  GREEN   = "92;";
+        const char* const  YELLOW  = "93;";
+        const char* const  BLUE    = "34;";
+        const char* const  MAGENTA = "95;";
+        const char* const  CYAN    = "96;";
+        const char* const  WHITE   = "37;";
     };
 };
 
