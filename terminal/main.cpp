@@ -1,6 +1,4 @@
-#include <iostream>
-#include "Codes.h"
-#include <sstream>
+#include "terminal.h"
 
 using namespace std;
 
