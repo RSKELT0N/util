@@ -9,10 +9,10 @@ terminal::~terminal() {
 }
 
 terminal* terminal::get_instance() {
-    if(inst == nullptr)
-        inst = static_cast<terminal*>(malloc(sizeof(terminal)));
+    if(!terminal::inst)
+        terminal::inst = static_cast<terminal*>(malloc(sizeof(terminal)));
     
-    return inst;
+    return terminal::inst;
 }
 
 std::string terminal::_format(const char* ansii) const {
@@ -28,17 +28,29 @@ void terminal::_action(const char* ansii) {
 }
 
 void terminal::_print(const char* txt, const char* ansii, ...) const {
+    //defining variadic list
     va_list lst;
+    //defining return
     std::string rs;
 
+    //adding ansii into one std::string instance, 'rs'.
     va_start(lst, ansii);
-    while(*ansii != '\0') {
+    //checking if last char/char->* till '/0' is null
+    while(std::regex_match(ansii, std::regex("^[a-zA-Z0-9]+$"))) {
         rs += std::string(ansii) + ";";
-        ansii++;
+        //jumping to next variable argument in lst.
+        ansii = va_arg(lst, const char*);
+
+        if(!ansii)
+            ansii = "!";
     }
     va_end(lst);
+
+    //removing ending ';'
     rs[rs.size()-1] = '\0';
-    printf("%s%s\n", _format(rs.c_str()).c_str(), txt);
+    //printing text in ansii format
+    rs = _format(rs.c_str());
+    std::cout << rs << txt << "\n";
 }
 
 };
