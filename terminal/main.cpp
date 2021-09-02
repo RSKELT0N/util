@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-    log("Hello", BOLD, STRIKE_THROUGH, ITALIC, UNDER_LINE, RED);
+    log("Hello!", UNDER_LINE, colour::BLUE);
     action(RESET);
-    return 0;
+return 0;
 }
