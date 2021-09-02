@@ -1,5 +1,4 @@
-#ifndef CODES_H
-#define CODES_H
+#pragma once
 
 #include "config.h"
 
@@ -12,24 +11,24 @@
             constexpr const char* SUFFIX                  = "m";
             //colour codes
             namespace colour {
-                constexpr const char*  RED                = "31";
-                constexpr const char*  GREEN              = "32";
-                constexpr const char*  YELLOW             = "33";
-                constexpr const char*  BLUE               = "34";
-                constexpr const char*  MAGENTA            = "35";
-                constexpr const char*  CYAN               = "36";
-                constexpr const char*  WHITE              = "37";
+                constexpr const char*  RED                = "31;";
+                constexpr const char*  GREEN              = "32;";
+                constexpr const char*  YELLOW             = "33;";
+                constexpr const char*  BLUE               = "34;";
+                constexpr const char*  MAGENTA            = "35;";
+                constexpr const char*  CYAN               = "36;";
+                constexpr const char*  WHITE              = "37;";
             };
-        //graphic codes -> '\x1b[[gr  aphic]1;[colour]33;m[text]
-            constexpr const char*  RESET                  = "0";
-            constexpr const char*  BOLD                   = "1";
-            constexpr const char*  FAINT                  = "2";
-            constexpr const char*  ITALIC                 = "3";
-            constexpr const char*  UNDER_LINE             = "4";
-            constexpr const char*  BLINK                  = "5";
-            constexpr const char*  INVERSE                = "7";
-            constexpr const char*  INVISIBLE              = "8";
-            constexpr const char*  STRIKE_THROUGH         = "9";
+        //graphic codes -> '\x1b[[graphic]1;[colour]33;m[text]
+            constexpr const char*  RESET                  = "0;";
+            constexpr const char*  BOLD                   = "1;";
+            constexpr const char*  FAINT                  = "2;";
+            constexpr const char*  ITALIC                 = "3;";
+            constexpr const char*  UNDER_LINE             = "4;";
+            constexpr const char*  BLINK                  = "5;";
+            constexpr const char*  INVERSE                = "7;";
+            constexpr const char*  INVISIBLE              = "8;";
+            constexpr const char*  STRIKE_THROUGH         = "9;";
         ;}
         namespace control {
             //cursor control codes   
@@ -83,5 +82,3 @@
         };
     };
 #endif
-
-#endif // CODES_H

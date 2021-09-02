@@ -1,5 +1,4 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once
 
 #define ENABLE_CODES 1
 
@@ -12,5 +11,3 @@ namespace util {
     #endif
     
 };
-
-#endif // CONFIG_H
