@@ -7,8 +7,8 @@ terminal::~terminal() {
 }
 
 terminal* terminal::get_instance() {
-    if(!terminal::m_inst)
-        terminal::m_inst = static_cast<terminal*>(malloc(sizeof(terminal)));
+    if(terminal::m_inst == nullptr)
+        terminal::m_inst = new terminal();
     
     return terminal::m_inst;
 }
@@ -16,38 +16,34 @@ terminal* terminal::get_instance() {
 std::string terminal::_format(const char* ansii) const {
     std::string rs = PREFIX;
     rs += ansii;
-    rs += SUFFIX;
+
+    if(std::regex_match(ansii, GRAPHIC_REGEX))
+        rs += SUFFIX;
 
     return rs;
 }
 
 void terminal::_action(const char* ansii) {
-    std::cout << _format(ansii) << "\n";
+    std::string rs = _format(ansii);
+    printf("%s", rs.c_str());
 }
 
 void terminal::_print(const char* txt, const char* ansii, ...) const {
-    //defining variadic list
     va_list lst;
     std::string rs;
 
-    //adding ansii into one std::string instance, 'rs'.
     va_start(lst, ansii);
-    //checking if last char/char->* till '/0' is null
-    while(std::regex_match(ansii, std::regex(GRAPHIC_REGEX))) {
-        //jumping to next variable argument in lst.
+    while(std::regex_match(ansii, GRAPHIC_REGEX)) {
         rs += std::string(ansii);
         ansii = va_arg(lst, const char*);
 
-        //checking if ansii is null, if so, 
-        //append anything so seg fault doesn't occur
         if(!ansii)
             ansii = "!";
     }
     va_end(lst);
 
-    //removing ending ';'
     rs[rs.size()-1] = '\0';
-    //printing text in ansii format
+    
     rs = _format(rs.c_str());
     printf("%s%s", rs.c_str(), txt);
 }

@@ -1,38 +1,40 @@
-#pragma once
+#ifndef TERMINAL_H
+#define TERMINAL_H
 
 #include "config.h"
 #include "codes.h"
-#include <regex>
-#include <string>
 #include <iostream>
+#include <regex>
+#include <string.h>
 #include <stdarg.h>
 
-#define GRAPHIC_REGEX "^[a-zA-Z0-9;]+$"
-#define CONTROL_REGEX "^[a-zA-Z0-9#?=]+$"
+#define GRAPHIC_REGEX            std::regex("^[0-9;]+$")
+#define CONTROL_REGEX            std::regex("^[a-zA-Z0-9#?=]+$")
+#define BIND_REGEX               std::regex("#[A-Z]{1}")
 
-#define log                 util::terminal::get_instance()->_print
-#define action(__control__) util::terminal::get_instance()->_action(__control__)
+#define log                      util::terminal::get_instance()->_print
+#define action(__control__)      util::terminal::get_instance()->_action(__control__)
+#define bind_(__ansii__, __amt__) util::u_bind(__ansii__, __amt__).constrct()
 
 using namespace util;
 using namespace util::graphics;
 
 namespace util {
 
-    struct bind {
-            uint8_t     m_amt;
+     struct u_bind {
+            size_t      m_amt;
             const char* m_code;
 
-            bind(const char* ansii, uint8_t&& val) : m_code(ansii), m_amt(val) {}
+            u_bind(const char* ansii, size_t&& val) : m_code(ansii), m_amt(val) {}
 
             const char* constrct() {
-                if(!regex_match(m_code, std::regex("#[A-Z]{1}"))) {
-                    throw __EXCEPTION__("invalid code for binding");
+                if(!regex_match(m_code, BIND_REGEX)) {
                     exit(EXIT_FAILURE);
                 }
-                char* tmp = (char*)&m_code;
-                tmp[0] = m_amt;
-                std::cout << m_code << "\n";
-                return static_cast<const char*>(this->m_code);
+
+                std::string tmp = std::to_string(m_amt) + std::string(m_code+1);
+                const char* final = tmp.c_str();
+                return final;
             }
         };
 
@@ -55,3 +57,5 @@ namespace util {
         static terminal* m_inst;
     };
 };
+
+#endif
