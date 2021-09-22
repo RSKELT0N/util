@@ -1,21 +1,20 @@
 #include "terminal.h"
-#include <windows.h>
 
 using namespace std;
 
 int main() {
-    printf("Result: ");
-    action(control::CURSOR_INVISIBLE);
-    
-    action(control::CURSOR_SAVE_SCO);
-    
-    for(int i = 0; i < 100; i++) {
-        log("", colour::RED);
-        printf("%d%%", i);
-        action(control::CURSOR_RESTORE_SCO);
-        Sleep(1000);
-    }
-    printf("\n");
+    std::ostringstream out;
+    std::streambuf* def = std::cout.rdbuf();
 
+    out << PREFIX << control::CURSOR_REQST;
+    std::cout << "hello\n";
+    std::cout.rdbuf(out.rdbuf());
+    std::cout.rdbuf(def);
+    std::cout << "hello\n";
+    std::string rs = out.str().c_str();
+
+    for(int i = 0; i < rs.size(); i++) {
+        std::cout << rs[i] << "-";
+    }
     return 0;
 }
