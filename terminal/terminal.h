@@ -8,14 +8,14 @@
 #include <string.h>
 #include <stdarg.h>
 
-#define BIND_REGEX                                                          std::regex("#[A-Z]{1}")
-#define GRAPHIC_REGEX                                                       std::regex("^[0-9;]+$")
-#define CONTROL_REGEX                                               std::regex("^[a-zA-Z0-9#?=]+$")
+#define BIND_REGEX                    std::regex("#[A-Z]{1}")
+#define GRAPHIC_REGEX                 std::regex("^[0-9;]+$")
+#define CONTROL_REGEX                 std::regex("^[a-zA-Z0-9#?=]+$")
 
-#define log                                                  util::terminal::get_instance()->_print
-#define set                                                    util::terminal::get_instance()->_set
-#define action(__control__)                    util::terminal::get_instance()->_action(__control__)
-#define bind(__ansii__, __amt__)                        util::u_bind(__ansii__, __amt__).constrct()
+#define log                           util::terminal::get_instance()->_print
+#define set                           util::terminal::get_instance()->_set
+#define action(__control__)           util::terminal::get_instance()->_action(__control__)
+#define bind(__ansii__, __amt__)      util::u_bind(__ansii__, __amt__).constrct()
 #define set_cursor(__row__, __col__)  util::terminal::get_instance()->_set_cursor(__row__, __col__)
 
 using namespace util;
@@ -46,8 +46,10 @@ namespace util {
         };
 
     class terminal {
-    private:
+    public:
         ~terminal();
+
+    private:
         terminal() = default;
     
     public:
@@ -64,7 +66,7 @@ namespace util {
         void _print(const char* txt, const char* ansii, ...) const;
 
     private:
-        static terminal* m_inst;
+        static std::unique_ptr<terminal> m_inst;
     };
 };
 

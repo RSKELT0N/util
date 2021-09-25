@@ -1,16 +1,19 @@
 #include "terminal.h"
 
-terminal* terminal::m_inst = nullptr;
-
-terminal::~terminal() {
-     delete m_inst;
-}
+std::unique_ptr<terminal> terminal::m_inst = nullptr;
 
 terminal* terminal::get_instance() {
     if(terminal::m_inst == nullptr)
-        terminal::m_inst = new terminal();
+        m_inst = std::unique_ptr<util::terminal>(new terminal());
     
-    return terminal::m_inst;
+    return m_inst.get();
+}
+
+terminal::~terminal() {
+    if(terminal::m_inst != nullptr) {
+        free(terminal::m_inst.get());
+    }
+    std::cout << "Deleted\n";
 }
 
 std::string terminal::_format(const char* ansii) const {
