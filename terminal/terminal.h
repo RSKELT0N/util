@@ -15,7 +15,7 @@
 #define log                           util::terminal::get_instance()->_print
 #define set                           util::terminal::get_instance()->_set
 #define action(__control__)           util::terminal::get_instance()->_action(__control__)
-#define bind(__ansii__, __amt__)      util::u_bind(__ansii__, __amt__).constrct()
+#define bindd(__ansii__, __amt__)      util::u_bind(__ansii__, __amt__).constrct()
 #define set_cursor(__row__, __col__)  util::terminal::get_instance()->_set_cursor(__row__, __col__)
 
 using namespace util;
@@ -46,9 +46,6 @@ namespace util {
         };
 
     class terminal {
-    public:
-        ~terminal();
-
     private:
         terminal() = default;
     
@@ -66,8 +63,8 @@ namespace util {
         void _print(const char* txt, const char* ansii, ...) const;
 
     private:
-        static std::unique_ptr<terminal> m_inst;
+        static terminal m_inst;
     };
 };
 
-#endif
+#endif    

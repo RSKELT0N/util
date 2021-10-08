@@ -1,19 +1,9 @@
 #include "terminal.h"
 
-std::unique_ptr<terminal> terminal::m_inst = nullptr;
+ terminal util::terminal::m_inst;
 
 terminal* terminal::get_instance() {
-    if(terminal::m_inst == nullptr)
-        m_inst = std::unique_ptr<util::terminal>(new terminal());
-    
-    return m_inst.get();
-}
-
-terminal::~terminal() {
-    if(terminal::m_inst != nullptr) {
-        free(terminal::m_inst.get());
-    }
-    std::cout << "Deleted\n";
+    return &m_inst;
 }
 
 std::string terminal::_format(const char* ansii) const {
@@ -31,8 +21,8 @@ void terminal::_get_cursor() const {
 
 void terminal::_set_cursor(const uint8_t& row, const uint8_t& col) const {
     action(control::CURSOR_HOME);
-    action(bind(control::CURSOR_DOWN_N, row));
-    action(bind(control::CURSOR_RIGHT_N, col));
+    action(bindd(control::CURSOR_DOWN_N, row));
+    action(bindd(control::CURSOR_RIGHT_N, col));
 }
 
 void terminal::_set(const char* ansii, ...) const {
