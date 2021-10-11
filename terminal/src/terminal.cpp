@@ -21,8 +21,8 @@ void terminal::_get_cursor() const {
 
 void terminal::_set_cursor(const uint8_t& row, const uint8_t& col) const {
     action(control::CURSOR_HOME);
-    action(bindd(control::CURSOR_DOWN_N, row));
-    action(bindd(control::CURSOR_RIGHT_N, col));
+    action(bind(control::CURSOR_DOWN_N, row));
+    action(bind(control::CURSOR_RIGHT_N, col));
 }
 
 void terminal::_set(const char* ansii, ...) const {

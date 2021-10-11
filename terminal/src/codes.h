@@ -33,6 +33,7 @@
         ;}
         namespace control {
             //cursor control codes   
+             constexpr const char*  CURSOR_SET             = "#;#H";
              constexpr const char*  CURSOR_HOME            = "H";
              constexpr const char*  CURSOR_UP_N            = "#A";
              constexpr const char*  CURSOR_DOWN_N          = "#B";

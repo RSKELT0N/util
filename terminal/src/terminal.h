@@ -15,8 +15,8 @@
 #define log                           util::terminal::get_instance()->_print
 #define set                           util::terminal::get_instance()->_set
 #define action(__control__)           util::terminal::get_instance()->_action(__control__)
-#define bindd(__ansii__, __amt__)      util::u_bind(__ansii__, __amt__).constrct()
-#define set_cursor(__row__, __col__)  util::terminal::get_instance()->_set_cursor(__row__, __col__)
+#define bind(__ansii__, __amt__)      util::u_bind(__ansii__, __amt__).join()
+#define set_cursor(__row__, __col__)  util::u_bind(__row__, __col__).add_vals_to_cursor()
 
 using namespace util;
 using namespace util::graphics;
@@ -31,17 +31,48 @@ namespace util {
      struct u_bind {
             size_t      m_amt;
             const char* m_code;
+            size_t m_row;
+            size_t m_col;
 
-            u_bind(const char* ansii, size_t&& val) : m_code(ansii), m_amt(val) {}
+            u_bind(const char* ansii, const size_t& val) : m_code(ansii), m_amt(val) {}
+            u_bind(const size_t& row, const size_t& col, const char* ansii = control::CURSOR_SET) : m_code(ansii), m_row(row), m_col(col) {}
 
-            const char* constrct() {
+            void constrct() {
                 if(!regex_match(m_code, BIND_REGEX)) {
                     exit(EXIT_FAILURE);
                 }
 
+                if(!strcmp(m_code, control::CURSOR_SET))
+                    join();
+                else add_vals_to_cursor();
+            }
+
+            const char* join() {
                 std::string tmp = std::to_string(m_amt) + std::string(m_code+1);
                 const char* final = tmp.c_str();
                 return final;
+            }
+
+            const char* add_vals_to_cursor() {
+                char KEY = '#';
+
+                bool row = 0;
+
+                std::string tmp(m_code);
+                std::string final = "";
+                for(int i = 0; i < tmp.size(); i++) {
+                    if(tmp[i] != KEY) {
+                        final += tmp[i];
+                        continue;
+                    }
+
+                    if(!row) {
+                        final += std::to_string(m_row);
+                        row = 1;
+                    } else final += std::to_string(m_col);
+                }
+                const char* rs = final.c_str();
+                return rs;
             }
         };
 
